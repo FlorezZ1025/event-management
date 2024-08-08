@@ -1,7 +1,5 @@
 import express from "express";
 import bodyParser from "body-parser";
-//const express = require("express");
-//const bodyParser = require("body-parser");
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 //dotenv lo uso para cargar variables de entorno desde .env y acceder a ellas dentro de mi código
@@ -22,9 +20,8 @@ app.use("/api/events", eventRoutes);
 
 // Conexión a la base de datos
 
-console.log(process.env.DB_CONNECTION);
 mongoose
-  .connect(process.env.DB_CONNECTION, { useUnifiedTopology: true })
+  .connect(process.env.DB_CONNECTION)
   .then(() => console.log("Conexión a la base de datos establecida"))
   .catch((err) => console.log("Error al conectar a la base de datos", err));
 
