@@ -12,11 +12,25 @@ dotenv.config();
 import userRoutes from "./routes/userRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 
+import jwt from "jsonwebtoken";
+
 const app = express();
 
 app.use(bodyParser.json());
 app.use("/api/users", userRoutes);
-app.use("/api/events", eventRoutes);
+app.use(
+  "/api/events",
+  async (req, res, next) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    try {
+      jwt.verify(token, process.env.JWT_SECRET);
+      next();
+    } catch (e) {
+      return res.status(401).send({ message: "Unauthorized" });
+    }
+  },
+  eventRoutes
+);
 
 // Conexión a la base de datos
 
